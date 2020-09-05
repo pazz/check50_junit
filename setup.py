@@ -24,6 +24,7 @@ setuptools.setup(
     python_requires='>=3.6',
     install_requires=[
         'check50',
+        'check50_java',
     ],
     package_data={'check50_junit': ['lib/*.jar']},
 )
