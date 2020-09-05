@@ -18,7 +18,7 @@ Such errors will be reflected in the JUnit's report XML file.
 TLDR: import `check50_junit`; add your compiled junit test classes to your pset, and use `check50_junit5.run_and_interpret_test` within your checks.
 A full example follows.
 
-All examples below assume that you're importing `check50` and `check50_java`.
+All examples below assume that you're importing `check50` and `check50_junit`.
 
 1. Write your model solution and unit test classes and manually compile them.
 
@@ -54,7 +54,7 @@ All examples below assume that you're importing `check50` and `check50_java`.
     @check50.check()
     def drink_getVolume():
         """Test Drink.getVolume()"""
-        check50_junit5.run_and_interpret_test(
+        check50_junit.run_and_interpret_test(
             classpaths=['tests/'],
             args=['--select-method', 'DrinkTest#getVolume'])
     ```
