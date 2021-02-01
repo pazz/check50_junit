@@ -97,15 +97,21 @@ def run_test(java=JAVA, classpaths=None, timeout=None, args=None):
             '-cp', '"' + classpath + '"',
             f"--reports-dir={report_dir}",
         ] + args
-        cmdline = " ".join(cmd) + " 1>/dev/null"
+        cmdline = " ".join(cmd)
         # check50._api.log(cmdline)
 
         # call subprocess and wait until it's done
         p = check50._api.run(cmdline)
         p_stdout = p.stdout(timeout=timeout)  # read output to report errors
+        error_trace = p_stdout.split('\n')
         if p.exitcode:  # if this cmd was unsuccessful raise check50
-            check50._api.log(p_stdout)
-            raise Failure("Error trying to run JUnit test!")
+            # test detected but failed to run properly.
+            # the stderr OR stdout contains "Caused by" lines
+            interesting = [l for l in error_trace
+                           if re.match(r'^\s*Caused by:', l)]
+            for l in interesting:
+                check50._api.log(l)
+            raise Failure("Broken check!")
 
         # supress log message introduced in previous command
         # which logs the full shell command (java -cp ..)
