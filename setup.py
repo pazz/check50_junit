@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="check50_junit",
-    version="0.4",
+    version="0.5",
     author="Patrick Totzke",
     author_email="patricktotzke@gmail.com",
     description="A check50 extension for running "
