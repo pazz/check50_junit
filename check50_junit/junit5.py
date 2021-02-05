@@ -104,8 +104,13 @@ def run_test(java=JAVA, classpaths=None, timeout=None, args=None):
         p = check50._api.run(cmdline)
         p_stdout = p.stdout(timeout=timeout)  # read output to report errors
         error_trace = p_stdout.split('\n')
-        if p.exitcode:  # if this cmd was unsuccessful raise check50
-            # test detected but failed to run properly.
+
+        # The process returns 0 if all tests ran and were successful.
+        # It returns 1 if tests were executed but some were unsuccessful.
+        # Other exit codes indicate that the tests could not be executed.
+        # This means the problem set is broken somehow.
+        if p.exitcode not in [0, 1]:
+            # if this cmd was unsuccessful raise check50
             # the stderr OR stdout contains "Caused by" lines
             interesting = [l for l in error_trace
                            if re.match(r'^\s*Caused by:', l)]
