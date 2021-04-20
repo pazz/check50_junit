@@ -144,11 +144,6 @@ def interpret_testcase(case):
                 raise Mismatch(expected, actual)
             else:
                 raise Failure(msg)
-        elif case['exception'].endswith('InstantiationError'):
-            msg = f"could not instantiate \"{msg}\""
-            hlp = "is this an Interface?"
-            raise Failure(msg, help=hlp)
-
         raise Failure(msg)
 
 
